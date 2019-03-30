@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -15,8 +16,8 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmViewHolder> {
 
     private List<Alarm> mData;
 
-    public AlarmAdapter(List<Alarm> alarms) {
-        mData = alarms;
+    public AlarmAdapter() {
+        mData = new ArrayList<>();
     }
 
     @NonNull
@@ -28,7 +29,13 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull AlarmViewHolder holder, int position) {
-        //
+        holder.bind(mData.get(position));
+    }
+
+    public void setAlarms(List<Alarm> alarms) {
+        mData.clear();
+        mData.addAll(alarms);
+        notifyDataSetChanged();
     }
 
     @Override
