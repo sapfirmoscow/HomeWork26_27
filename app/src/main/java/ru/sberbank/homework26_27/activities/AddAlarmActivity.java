@@ -1,4 +1,4 @@
-package ru.sberbank.homework26_27;
+package ru.sberbank.homework26_27.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,6 +11,9 @@ import android.widget.TimePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import ru.sberbank.homework26_27.AlarmApplication;
+import ru.sberbank.homework26_27.R;
+import ru.sberbank.homework26_27.room.Alarm;
 
 public class AddAlarmActivity extends AppCompatActivity {
 

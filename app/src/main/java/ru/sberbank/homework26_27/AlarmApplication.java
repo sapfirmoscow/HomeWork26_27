@@ -15,7 +15,10 @@ public class AlarmApplication extends Application {
 
     @Override
     public void onCreate() {
-        mAlarmDB = Room.databaseBuilder(getApplicationContext(), AlarmDB.class, "alarms").fallbackToDestructiveMigration().allowMainThreadQueries().build();
+        mAlarmDB = Room.databaseBuilder(getApplicationContext(), AlarmDB.class, "alarms")
+                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
+                .build();
         super.onCreate();
     }
 }

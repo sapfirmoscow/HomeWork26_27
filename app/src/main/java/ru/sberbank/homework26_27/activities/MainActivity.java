@@ -1,15 +1,17 @@
-package ru.sberbank.homework26_27;
+package ru.sberbank.homework26_27.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +19,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
+import ru.sberbank.homework26_27.AlarmApplication;
+import ru.sberbank.homework26_27.R;
 import ru.sberbank.homework26_27.recycler.AlarmAdapter;
+import ru.sberbank.homework26_27.room.Alarm;
+import ru.sberbank.homework26_27.worker.AlarmScheduler;
+import ru.sberbank.homework26_27.worker.MyWorker;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,11 +38,16 @@ public class MainActivity extends AppCompatActivity {
         initRecyclerView();
         initViews();
         initListeners();
+        long time = System.currentTimeMillis();
+        Log.d("Dede", " " + time);
+    }
 
-        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(MyWorker.class).build();
+    private void setWorker(Alarm alarm) {
+        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(MyWorker.class)
+                .setInitialDelay(10, TimeUnit.SECONDS)
+                .build();
         WorkManager workManager = WorkManager.getInstance();
-
-
+        workManager.enqueue(request);
     }
 
     private void initListeners() {
@@ -101,5 +113,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         updateAlarmList();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        List<Alarm> activeAlarms = AlarmApplication
+                .getDBInstanse()
+                .getAlarmDAO()
+                .getEnabledAlarms();
+        for (int i = 0; i < activeAlarms.size(); i++) {
+            AlarmScheduler.scheduleAlarm(activeAlarms.get(i));
+        }
     }
 }

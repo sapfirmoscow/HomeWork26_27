@@ -9,8 +9,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import ru.sberbank.homework26_27.Alarm;
 import ru.sberbank.homework26_27.R;
+import ru.sberbank.homework26_27.room.Alarm;
 
 public class AlarmAdapter extends RecyclerView.Adapter<AlarmViewHolder> {
 

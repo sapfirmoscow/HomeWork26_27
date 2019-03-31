@@ -1,4 +1,4 @@
-package ru.sberbank.homework26_27;
+package ru.sberbank.homework26_27.room;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
